@@ -1,0 +1,55 @@
+<html>
+<head>
+		<title> Live CC by Viraj </title>
+		<style>
+				* { font-size:80px;  font-family:  Calibri;  }
+				body {  background-image : url("im7.jpg");  }
+				h1,h2 {color:Black; }
+				input[type=submit] {width:20%; background-color:black; 
+						color:white; border-radius:40px; }
+		</style>
+		<script>
+				function convert()
+				{
+						event.preventDefault();
+						let amt = document.getElementById("id_amt");
+						let msg = document.getElementById("id_msg");
+
+						if (amt.value == "")
+						{
+						alert("u did not enter amt");
+						msg.innerHTML = "";
+						amt.focus();
+						return;
+						}
+
+						let aid = parseFloat(amt.value);
+						let url = "https://api.exchangerate-api.com/v4/latest/USD";
+						fetch(url)
+						.then(res => res.json())
+						.then(data => {
+								let DOLLAR = data.rates.INR;
+								let air = DOLLAR * aid;
+								let ans = "\u20b9" + air.toFixed(2);
+								msg.innerHTML = ans;
+						})
+						.catch(err => {
+								let ans = "issue" + err;
+								msg.innerHTML = ans;
+						});
+
+				}
+		</script>
+</head>
+<body>
+<center>
+		<h1> LIVE  CURRENCY CONVERTOR </h1>
+		<form onsubmit="convert()">
+				<input type="number"  step="any"  id="id_amt"  placeholder="amt in $$" />
+				<br><br>
+				<input type="submit" value="Convert" />
+	</form>
+				<h2 id="id_msg" />
+</center>
+</body>
+</html>
